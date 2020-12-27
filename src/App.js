@@ -1,25 +1,53 @@
-import logo from './logo.svg';
-import './App.css';
+import { Component } from 'react'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+//page imports
+import StartGame from './pages/StartGame'
+import Gather from './pages/Gather'
+
+class App extends Component {
+  state = {
+    gameId: '',
+    scene: 'startgame',
+    name: '',
+    players: ''
+  }
+
+  chooseView = () => {
+    const {scene} = this.state
+    if (scene === 'startgame') {
+      return <StartGame 
+        changeScene={this.changeScene}
+        changeGame={this.changeGame}
+        changeName={this.changeName}
+      />
+    } else if (scene === 'gather')
+      return <Gather 
+        {...this.state}
+        changeScene={this.changeScene}
+      />
+  }
+
+  changeScene = (scene) => {
+    this.setState({scene})
+  }
+
+  changeGame = (gameId) => {
+    this.setState({gameId})
+  }
+
+  changeName = (name) => {
+    this.setState({name})
+  }
+
+  changePlayers = (players) => {
+    this.setState({players})
+  }
+  
+  render() {
+    return (
+      this.chooseView()
+    )
+  }
 }
 
 export default App;
