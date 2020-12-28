@@ -1,36 +1,31 @@
 import { Component } from 'react'
-import axios from 'axios'
+import NewRoundScoreBoard from './NewRoundScoreboard'
+import NewRoundPlayer from './NewRoundPlayer'
 
 class NewRound extends Component {
-  intervalId
-  
-  state = {
-    players: ''
+  chooseView = () => {
+    if (this.props.name === 'scoreboard') {
+      return (
+        <div>
+          <NewRoundScoreBoard
+          />
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <NewRoundPlayer
+            name={this.props.name}
+          />
+        </div>
+      )
+    }
   }
-
-  // chooseView = () => {
-  //   if (this.props.name === 'scoreboard') {
-  //     return (
-  //       <div>
-  //         <GatherScoreboard 
-  //           gameId={this.props.gameId}
-  //           players={this.state.players}
-  //         />
-  //       </div>
-  //     )
-  //   } else {
-  //     return (
-  //       <div>
-  //         <GatherPlayer />
-  //       </div>
-  //     )
-  //   }
-  // }
   
   render() {
     return (
       <div>
-        New Round!
+        {this.chooseView()}
       </div>
     )
   }

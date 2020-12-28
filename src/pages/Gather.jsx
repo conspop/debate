@@ -1,5 +1,4 @@
 import { Component } from 'react'
-import axios from 'axios'
 import GatherScoreboard from './GatherScoreboard'
 import GatherPlayer from './GatherPlayer'
 
