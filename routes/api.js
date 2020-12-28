@@ -4,6 +4,7 @@ const apiCtrl = require('../controllers/api');
 
 router.post('/newgame', apiCtrl.newGame)
 router.post('/joingame', apiCtrl.joinGame)
-router.post('/updateplayers', apiCtrl.updatePlayers)
+router.post('/updategamestate', apiCtrl.updateGameState)
+router.post('/changescene', apiCtrl.changeScene)
 
 module.exports = router;

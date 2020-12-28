@@ -3,7 +3,8 @@ const Game = require('../models/game')
 module.exports = {
   newGame,
   joinGame,
-  updatePlayers
+  updateGameState,
+  changeScene
 };
 
 async function newGame(req, res) {
@@ -19,7 +20,6 @@ async function newGame(req, res) {
 async function joinGame(req, res) {
   // add new player to game
   await Game.findOne({gameId: req.body.gameId}, function(err, game) {
-    console.log(game)
     game.players.push({name: req.body.name})
     game.save()
     if (err) {
@@ -30,10 +30,22 @@ async function joinGame(req, res) {
   })
 }
 
-async function updatePlayers(req, res) {
+async function updateGameState(req, res) {
   // add new player to game
   await Game.findOne({gameId: req.body.gameId}, function(err, game) {
-    console.log(game)
+    if (err) {
+      res.json(err)
+    } else {
+      res.json(game)
+    }
+  })
+}
+
+async function changeScene(req, res) {
+  // add new player to game
+  await Game.findOne({gameId: req.body.gameId}, function(err, game) {
+    game.scene = req.body.scene
+    game.save()
     if (err) {
       res.json(err)
     } else {

@@ -6,9 +6,25 @@ const playersSchema = new Schema({
   name: String,
 })
 
+const votesSchema = new Schema({
+  name: String,
+  vote: Number
+})
+
+const roundsSchema = new Schema({
+  yesPlayer: String,
+  noPlayer: String,
+  yesHandicap: String,
+  noHandicap: String,
+  topic: String,
+  winnerVotes: [votesSchema],
+  handicapVotes: [votesSchema]
+})
 const gameSchema = new Schema({
   gameId: String,
-  players: [playersSchema]
+  scene: String,
+  players: [playersSchema],
+  rounds: [roundsSchema]
 });
 
 module.exports = mongoose.model('Game', gameSchema);
