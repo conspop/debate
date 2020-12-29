@@ -13,7 +13,8 @@ class App extends Component {
     gameId: '',
     scene: 'startgame',
     name: '',
-    players: ''
+    players: '',
+    rounds:''
   }
 
   componentDidMount = () => {
@@ -33,10 +34,11 @@ class App extends Component {
       }
     })
     .then(response => {
-      console.log(response)
+      let {players, scene, rounds} = response.data
       this.setState({
-        players: response.data.players,
-        scene: response.data.scene
+        players,
+        scene,
+        rounds
       })
       this.intervalId = setTimeout(this.updateGameState.bind(this), 1000)
     })
@@ -47,7 +49,6 @@ class App extends Component {
 
   chooseView = () => {
     const {scene} = this.state
-    console.log(scene)
     if (scene === 'startgame') {
       return <StartGame 
         changeScene={this.changeScene}
@@ -73,7 +74,6 @@ class App extends Component {
       gameId: this.state.gameId,
       scene
     })
-    .then(response => console.log(response))
     .catch(error => console.log(error.message))
   }
 

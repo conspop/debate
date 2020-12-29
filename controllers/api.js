@@ -1,10 +1,13 @@
 const Game = require('../models/game')
+const Topic = require('../models/topic')
+const Handicap = require('../models/handicap')
 
 module.exports = {
   newGame,
   joinGame,
   updateGameState,
-  changeScene
+  changeScene,
+  newRound,
 };
 
 async function newGame(req, res) {
@@ -52,4 +55,44 @@ async function changeScene(req, res) {
       res.json(game)
     }
   })
+}
+
+function chooseTwoPlayers(game) {
+  let idx1 = (Math.floor(Math.random() * game.players.length))
+  let idx2
+  while (!idx2 || idx2 === idx1) {
+    idx2 = (Math.floor(Math.random() * game.players.length))
+  } 
+  return ([game.players[idx1].name, game.players[idx2].name])
+}
+
+async function chooseTwoHandicaps(game) {
+  let handicaps = await Handicap.find({})
+  let idx1 = (Math.floor(Math.random() * handicaps.length))
+  let idx2
+  while (!idx2 || idx2 === idx1) {
+    idx2 = (Math.floor(Math.random() * handicaps.length))
+  } 
+  return ([handicaps[idx1].handicap, handicaps[idx2].handicap])
+}
+
+async function chooseTopic(game) {
+  let topics = await Topic.find({})
+  let idx = (Math.floor(Math.random() * topics.length))
+  return topics[idx].topic
+}
+
+async function newRound(req, res) {
+  let game = await Game.findOne({gameId: req.body.gameId})
+  let players = await chooseTwoPlayers(game)
+  let handicaps = await chooseTwoHandicaps(game)
+  game.rounds.push({
+    yesPlayer: players[0],
+    noPlayer: players[1],
+    yesHandicap: handicaps[0],
+    noHandicap: handicaps[1],
+    topic: await chooseTopic(game),
+  })
+  game.save()
+  res.json(game)
 }

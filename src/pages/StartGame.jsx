@@ -6,7 +6,7 @@ import axios from 'axios'
 class StartGame extends Component {  
   state = {
     gameInput: '',
-    nameInput: ''
+    nameInput: '',
   }
   
   createNewGame = async () => {
@@ -69,7 +69,7 @@ class StartGame extends Component {
           onClick={this.joinGame}
         >
           Join Game  
-        </button>  
+        </button> 
       </div>
     )
   }

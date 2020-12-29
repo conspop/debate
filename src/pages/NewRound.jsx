@@ -4,10 +4,18 @@ import NewRoundPlayer from './NewRoundPlayer'
 
 class NewRound extends Component {
   chooseView = () => {
-    if (this.props.name === 'scoreboard') {
+    if (!this.props.rounds) {
+      return (
+        <div>
+          <h1>Loading</h1>
+        </div>
+      )
+    } else if (this.props.name === 'scoreboard') {
       return (
         <div>
           <NewRoundScoreBoard
+            gameId={this.props.gameId}
+            rounds={this.props.rounds}
           />
         </div>
       )
@@ -16,6 +24,7 @@ class NewRound extends Component {
         <div>
           <NewRoundPlayer
             name={this.props.name}
+            rounds={this.props.rounds}
           />
         </div>
       )
