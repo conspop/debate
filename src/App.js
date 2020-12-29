@@ -4,7 +4,7 @@ import axios from 'axios'
 //page imports
 import StartGame from './pages/StartGame'
 import Gather from './pages/Gather'
-import NewRound from './pages/NewRound'
+import Round from './pages/Round'
 
 class App extends Component {
   intervalId
@@ -61,9 +61,10 @@ class App extends Component {
         changeScene={this.changeScene}
       />
     } else if (scene === 'newround') {
-      return <NewRound 
+      return <Round 
         {...this.state}
         changeScene={this.changeScene}
+        changeRoundScene={this.changeRoundScene}
       />
     }
   }
@@ -73,6 +74,19 @@ class App extends Component {
     await axios.post('/api/changescene', {
       gameId: this.state.gameId,
       scene
+    })
+    .then(response => {
+
+    })
+    .catch(error => console.log(error.message))
+  }
+
+  changeRoundScene = async (stage,turn,timer) => {
+    await axios.post('/api/changeroundscene', {
+      gameId: this.state.gameId,
+      stage,
+      turn,
+      timer
     })
     .catch(error => console.log(error.message))
   }

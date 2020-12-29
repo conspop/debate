@@ -11,15 +11,25 @@ const votesSchema = new Schema({
   vote: Number
 })
 
+const roundSceneSchema = new Schema({
+  timer: Boolean,
+  stage: String,
+  turn: String
+})
+
 const roundsSchema = new Schema({
   yesPlayer: String,
   noPlayer: String,
   yesHandicap: String,
   noHandicap: String,
   topic: String,
+  timer:Boolean,
+  stage: String,
+  turn: String,
   winnerVotes: [votesSchema],
   handicapVotes: [votesSchema]
 })
+
 const gameSchema = new Schema({
   gameId: String,
   scene: String,

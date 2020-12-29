@@ -7,6 +7,7 @@ module.exports = {
   joinGame,
   updateGameState,
   changeScene,
+  changeRoundScene,
   newRound,
 };
 
@@ -45,9 +46,24 @@ async function updateGameState(req, res) {
 }
 
 async function changeScene(req, res) {
-  // add new player to game
   await Game.findOne({gameId: req.body.gameId}, function(err, game) {
     game.scene = req.body.scene
+    game.save()
+    if (err) {
+      res.json(err)
+    } else {
+      res.json(game)
+    }
+  })
+}
+
+async function changeRoundScene(req, res) {
+  await Game.findOne({gameId: req.body.gameId}, function(err, game) {
+    let {rounds} = game
+    let round = rounds(rounds.length - 1)
+    round.stage = req.body.stage
+    round.turn = req.body.turn
+    round.timer = req.body.timer
     game.save()
     if (err) {
       res.json(err)
@@ -92,6 +108,9 @@ async function newRound(req, res) {
     yesHandicap: handicaps[0],
     noHandicap: handicaps[1],
     topic: await chooseTopic(game),
+    timer: false,
+    stage: 'opening',
+    turn: 'yes'
   })
   game.save()
   res.json(game)

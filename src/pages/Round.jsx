@@ -1,8 +1,8 @@
 import { Component } from 'react'
-import NewRoundScoreBoard from './NewRoundScoreboard'
-import NewRoundPlayer from './NewRoundPlayer'
+import RoundScoreboard from './RoundScoreboard'
+import RoundPlayer from './RoundPlayer'
 
-class NewRound extends Component {
+class Round extends Component {
   chooseView = () => {
     if (!this.props.rounds) {
       return (
@@ -13,7 +13,7 @@ class NewRound extends Component {
     } else if (this.props.name === 'scoreboard') {
       return (
         <div>
-          <NewRoundScoreBoard
+          <RoundScoreboard
             gameId={this.props.gameId}
             rounds={this.props.rounds}
           />
@@ -22,9 +22,10 @@ class NewRound extends Component {
     } else {
       return (
         <div>
-          <NewRoundPlayer
+          <RoundPlayer
             name={this.props.name}
             rounds={this.props.rounds}
+            changeRoundScene={this.props.changeRoundScene}
           />
         </div>
       )
@@ -40,4 +41,4 @@ class NewRound extends Component {
   }
 }
 
-export default NewRound
+export default Round
