@@ -23,7 +23,7 @@ const roundsSchema = new Schema({
   yesHandicap: String,
   noHandicap: String,
   topic: String,
-  stage: String,
+  stage: Number,
   runTimer: Boolean,
   winnerVotes: [votesSchema],
   handicapVotes: [votesSchema]

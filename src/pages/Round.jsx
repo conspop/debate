@@ -11,8 +11,14 @@ const stages = [
   {
     name: 'opening',
     turn: 'yes',
-    timer: 60000
-  }
+    timer: 5000
+  },
+  {
+    name: 'opening',
+    turn: 'no',
+    timer: 5000
+  },
+
 ]
 
 class Round extends Component {  

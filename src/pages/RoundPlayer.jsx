@@ -61,6 +61,8 @@ function RoundPlayer(props) {
     }
     if (amArguing !== '' && props.stages[round.stage].turn === amArguing) {
       setStartTimerButton(true)
+    } else {
+      setStartTimerButton(false)
     }
   })
   

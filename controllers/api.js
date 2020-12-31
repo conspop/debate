@@ -8,7 +8,8 @@ module.exports = {
   updateGameState,
   changeScene,
   newRound,
-  toggleTimer
+  toggleTimer,
+  nextStage
 };
 
 const testPlayers = [{name:'Seb'}, {name:'Stef'}, {name:'Connor'}]
@@ -114,3 +115,19 @@ async function toggleTimer(req, res) {
     }
   })
 }
+
+async function nextStage(req, res) {
+  await Game.findOne({gameId: req.body.gameId}, function(err, game) {
+    const {rounds} = game
+    const round = rounds[rounds.length - 1]
+    round.runTimer = false
+    round.stage += 1
+    game.save()
+    if (err) {
+      res.json(err)
+    } else {
+      res.json(game)
+    }
+  })
+}
+
