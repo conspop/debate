@@ -1,20 +1,27 @@
 import { Component } from 'react'
 
 class StartTimerButton extends Component {
+  state = {
+    showButton: true
+  }
+
   handleClick = () => {
-    if (this.props.currentRound. === 'yesopeningwait') {
-      this.props.changeRoundScene('opening','yes',true)
-    }
+    this.setState({showButton: false})
+    this.props.changeRoundScene(this.props.currentRound.stage,this.props.currentRound.turn,true)
   }
   
   render() {
     return (
       <>
+        {this.state.showButton ?
         <button
           onClick={this.handleClick}
         >
           Start Timer
         </button>
+        :
+        ''
+        }
       </>
     )
   }

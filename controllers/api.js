@@ -7,9 +7,11 @@ module.exports = {
   joinGame,
   updateGameState,
   changeScene,
-  changeRoundScene,
   newRound,
+  toggleTimer
 };
+
+const testPlayers = [{name:'Seb'}, {name:'Stef'}, {name:'Connor'}]
 
 async function newGame(req, res) {
   // create random gameId and add to db
@@ -17,8 +19,8 @@ async function newGame(req, res) {
   while (gameId.length < 5) {
     gameId += (Math.floor(Math.random() * 9) + 1)
   }
-  await Game.create({gameId})
-  res.json(gameId)
+  await Game.create({gameId, scene:'gather', players:testPlayers})
+  res.json(gameId) 
 }
 
 async function joinGame(req, res) {
@@ -48,22 +50,6 @@ async function updateGameState(req, res) {
 async function changeScene(req, res) {
   await Game.findOne({gameId: req.body.gameId}, function(err, game) {
     game.scene = req.body.scene
-    game.save()
-    if (err) {
-      res.json(err)
-    } else {
-      res.json(game)
-    }
-  })
-}
-
-async function changeRoundScene(req, res) {
-  await Game.findOne({gameId: req.body.gameId}, function(err, game) {
-    let {rounds} = game
-    let round = rounds(rounds.length - 1)
-    round.stage = req.body.stage
-    round.turn = req.body.turn
-    round.timer = req.body.timer
     game.save()
     if (err) {
       res.json(err)
@@ -108,10 +94,23 @@ async function newRound(req, res) {
     yesHandicap: handicaps[0],
     noHandicap: handicaps[1],
     topic: await chooseTopic(game),
-    timer: false,
-    stage: 'opening',
-    turn: 'yes'
+    stage: 1,
+    runTimer:false
   })
   game.save()
   res.json(game)
+}
+
+async function toggleTimer(req, res) {
+  await Game.findOne({gameId: req.body.gameId}, function(err, game) {
+    const {rounds} = game
+    const round = rounds[rounds.length - 1]
+    round.runTimer = !round.runTimer
+    game.save()
+    if (err) {
+      res.json(err)
+    } else {
+      res.json(game)
+    }
+  })
 }

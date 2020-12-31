@@ -1,4 +1,5 @@
 import { Component } from 'react'
+import axios from 'axios'
 
 class GatherScoreboard extends Component {
   buildPlayerList() {
@@ -11,7 +12,12 @@ class GatherScoreboard extends Component {
     })
   }
 
-  handleStartGame = () => {
+  handleStartGame = async () => {
+    await axios.post('/api/changescene', {
+      gameId: this.props.gameId,
+      scene: 'newround'
+    })
+    .catch(err => console.log(err.message))
     this.props.changeScene('newround')
   }
   

@@ -18,6 +18,9 @@ class App extends Component {
   }
 
   componentDidMount = () => {
+    if (this.intervalId) {
+      clearTimeout(this.intervalId)
+    }
     this.updateGameState()    
   }
 
@@ -25,8 +28,8 @@ class App extends Component {
     clearTimeout(this.intervalId)
   }
 
-  updateGameState = () => {
-    axios({
+  updateGameState = async () => {
+    await axios({
       method: 'post',
       url: '/api/updategamestate',
       data: {
@@ -36,15 +39,28 @@ class App extends Component {
     .then(response => {
       let {players, scene, rounds} = response.data
       this.setState({
-        players,
         scene,
+        players,
         rounds
       })
+      console.log('updated')
       this.intervalId = setTimeout(this.updateGameState.bind(this), 1000)
     })
     .catch(error => {
       this.intervalId = setTimeout(this.updateGameState.bind(this), 1000)
     })
+  }
+
+  changeScene = (scene) => {
+    this.setState({scene})
+  }
+
+  changeGame = (gameId) => {
+    this.setState({gameId})
+  }
+
+  changeName = (name) => {
+    this.setState({name})
   }
 
   chooseView = () => {
@@ -64,43 +80,8 @@ class App extends Component {
       return <Round 
         {...this.state}
         changeScene={this.changeScene}
-        changeRoundScene={this.changeRoundScene}
       />
     }
-  }
-
-  changeScene = async (scene) => {
-    this.setState({scene})
-    await axios.post('/api/changescene', {
-      gameId: this.state.gameId,
-      scene
-    })
-    .then(response => {
-
-    })
-    .catch(error => console.log(error.message))
-  }
-
-  changeRoundScene = async (stage,turn,timer) => {
-    await axios.post('/api/changeroundscene', {
-      gameId: this.state.gameId,
-      stage,
-      turn,
-      timer
-    })
-    .catch(error => console.log(error.message))
-  }
-
-  changeGame = (gameId) => {
-    this.setState({gameId})
-  }
-
-  changeName = (name) => {
-    this.setState({name})
-  }
-
-  changePlayers = (players) => {
-    this.setState({players})
   }
   
   render() {

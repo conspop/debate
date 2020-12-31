@@ -1,78 +1,30 @@
-import { Component } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import Timer from '../components/Timer'
 
-class RoundScoreboard extends Component {  
-  state = {
-    timer: ''
-  }
-  
-  componentDidMount() {
-    this.createNewRound()
-  }
+function RoundScoreboard(props) {
+  const {rounds, gameId} = props
+  const round = rounds[rounds.length - 1]
 
-  componentDidUpdate(prevProps) {
-    let {rounds} = this.props
-    let round = rounds[rounds.length - 1]
-    if (rounds.length > 0) {
-      if (
-        round !== prevProps.rounds[prevProps.rounds.length - 1] &&
-        round.timer === true
-        ) {
-        this.timerController()
-      }
-    }
-  }
+  useEffect(async () => {
+    if (rounds.length === 0) {
+      await axios.post('/api/newround', {
+        gameId
+      })
+      .catch(err => console.log(err.message))
+    } 
+  })
 
-  componentWillUnmount() {
-    clearInterval(this.timerId)
-  }
-  
-  createNewRound = async () => {
-    await axios.post('/api/newround', {
-      gameId: this.props.gameId,
-    })
-    .then(response => console.log(response))
-    .catch(error => console.log(error.message))
-  }
-
-  timerController = () => {
-    const currentRound = this.props.rounds[this.props.rounds.length - 1]
-    // if (currentRound.roundScene === 'yesopeningtimer') {
-      this.setState({timer: 100})
-      this.timerId = setInterval(this.handleTick, 1000)
-    // }
-  }
-
-  handleTick = () => {
-    this.setState(state => ({timer: state.timer - 1}))
-  }
-
-  whatToRender() {
-    if (this.props.rounds.length > 0) {
-      const {rounds} = this.props
-      const currentRound = rounds[rounds.length - 1]
-      return (
-        <>
-          <div>
-            Topic: {currentRound.topic} <br />
-            Arguing Yes: {currentRound.yesPlayer} <br />
-            Arguing No: {currentRound.noPlayer}
-          </div>
-          <div>
-            <h1>{this.state.timer}</h1>
-          </div>
-        </>
-      )
-    } else {
-      return 'Loading Round'
-    }
-  }
-  
-  render() {
-    return (
-      this.whatToRender()
-    )
-  }
+  return (
+    (rounds.length === 0) ?
+    <div>Loading</div> :
+    <div>
+      <h1>Topic: {round.topic}</h1>
+      <h3>Arguing Yes: {round.yesPlayer}</h3>
+      <h3>Arguing No: {round.noPlayer}</h3>
+      <Timer round={round} stages={props.stages} runTimer={round.runTimer} />
+    </div>
+  )
 }
 
 export default RoundScoreboard

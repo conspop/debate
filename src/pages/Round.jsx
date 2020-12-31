@@ -2,7 +2,20 @@ import { Component } from 'react'
 import RoundScoreboard from './RoundScoreboard'
 import RoundPlayer from './RoundPlayer'
 
-class Round extends Component {
+const stages = [
+  {
+    name: 'newRound',
+    turn: '',
+    timer: '',
+  },
+  {
+    name: 'opening',
+    turn: 'yes',
+    timer: 60000
+  }
+]
+
+class Round extends Component {  
   chooseView = () => {
     if (!this.props.rounds) {
       return (
@@ -14,8 +27,8 @@ class Round extends Component {
       return (
         <div>
           <RoundScoreboard
-            gameId={this.props.gameId}
-            rounds={this.props.rounds}
+            {...this.props}
+            stages={stages}
           />
         </div>
       )
@@ -23,9 +36,8 @@ class Round extends Component {
       return (
         <div>
           <RoundPlayer
-            name={this.props.name}
-            rounds={this.props.rounds}
-            changeRoundScene={this.props.changeRoundScene}
+            {...this.props}
+            stages={stages}
           />
         </div>
       )

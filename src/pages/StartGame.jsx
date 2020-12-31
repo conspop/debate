@@ -10,7 +10,7 @@ class StartGame extends Component {
   }
   
   createNewGame = async () => {
-    axios({
+    await axios({
       method: 'post',
       url: '/api/newgame',
     })
@@ -22,12 +22,8 @@ class StartGame extends Component {
     .catch(error => console.log(error.message))
   }
 
-  handleInputChange = (event) => {
-    this.setState({[event.target.id]: event.target.value})
-  }
-
-  joinGame = () => {
-    axios({
+  joinGame = async () => {
+    await axios({
       method: 'post',
       url: '/api/joingame',
       data: {
@@ -41,6 +37,10 @@ class StartGame extends Component {
       this.props.changeScene('gather')
     })
     .catch(error => console.log(error.message))
+  }
+
+  handleInputChange = (event) => {
+    this.setState({[event.target.id]: event.target.value})
   }
   
   render() {

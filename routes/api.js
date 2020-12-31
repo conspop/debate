@@ -6,8 +6,7 @@ router.post('/newgame', apiCtrl.newGame)
 router.post('/joingame', apiCtrl.joinGame)
 router.post('/updategamestate', apiCtrl.updateGameState)
 router.post('/changescene', apiCtrl.changeScene)
-router.post('/changeroundscene', apiCtrl.changeRoundScene)
 router.post('/newround', apiCtrl.newRound)
-
+router.post('/toggletimer', apiCtrl.toggleTimer)
 
 module.exports = router;
