@@ -10,16 +10,14 @@ async function moveToNextStage(gameId) {
 
 export default function Timer(props) { 
   const [seconds, setSeconds] = useState('')
-  const [isActive, setIsActive] = useState(false)
 
   function reset() {
     setSeconds('')
-    setIsActive(false)
   }
 
   let interval
 
-  // runs timer when isActive is true
+  // runs timer when runTimer is true
   useEffect(() => {
     interval = null;
     if (props.runTimer) {

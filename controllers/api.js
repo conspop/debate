@@ -20,7 +20,7 @@ async function newGame(req, res) {
   while (gameId.length < 5) {
     gameId += (Math.floor(Math.random() * 9) + 1)
   }
-  await Game.create({gameId, scene:'gather', players: testPlayers})
+  await Game.create({gameId, scene:'gather'})
   res.json(gameId) 
 }
 
