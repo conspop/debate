@@ -64,7 +64,7 @@ function RoundPlayer(props) {
     } else {
       setStartTimerButton(false)
     }
-  })
+  }, [props.name, props.stages, round.yesPlayer, round.noPlayer, round.stage, amArguing])
   
   return (
     <>

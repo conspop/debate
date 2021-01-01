@@ -8,28 +8,43 @@ async function moveToNextStage(gameId) {
   .catch(err => err.message)
 }
 
-export default function Timer(props) {
+export default function Timer(props) { 
+  const [seconds, setSeconds] = useState('')
+  const [isActive, setIsActive] = useState(false)
 
-  let timerInterval
-  
-  const [timeLeft, setTimeLeft] = useState(props.stages[props.round.stage].timer / 1000)
+  function reset() {
+    setSeconds('')
+    setIsActive(false)
+  }
 
+  let interval
+
+  // runs timer when isActive is true
   useEffect(() => {
-    if (timeLeft > 0) {
-      timerInterval = setTimeout(function () {
-        setTimeLeft(timeLeft - 1)
-      },1000)
-    } else {
+    interval = null;
+    if (props.runTimer) {
+      setSeconds(props.seconds)
+      interval = setInterval(() => {
+        setSeconds(seconds => seconds - 1000)
+      }, 1000)
+    } else if (!props.runTimer && interval) {
+      clearInterval(interval)
+    }
+    return () => clearInterval(interval)
+  }, [props.runTimer])
+
+
+  // clear timer when it gets to zero
+  useEffect(() => {
+    console.log('third hook')
+    if (props.runTimer && seconds === 0) {
+      reset()
       moveToNextStage(props.gameId)
-      props.killTimer()
     }
-    return function cleanup() {
-      clearInterval(timerInterval)
-    }
-  })
+  }, [seconds, props.runTimer, props.gameId, interval])
 
   return (
-    <h1>{timeLeft}</h1>
+    <h1>{props.runTimer ? seconds/1000 : ''}</h1>
   )
 }
 
