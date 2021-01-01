@@ -7,16 +7,37 @@ const stages = [
     name: 'newRound',
     turn: '',
     timer: '',
+    message: ''
   },
   {
     name: 'opening',
     turn: 'yes',
-    timer: 5000
+    timer: 5000,
+    message: '60 second opening argument for Yes. Click start timer on your device.'
   },
   {
     name: 'opening',
     turn: 'no',
-    timer: 5000
+    timer: 5000,
+    message: '60 second opening argument for No. Click start timer on your device.'
+  },
+  {
+    name: 'argument',
+    turn: 'yes',
+    timer: 10000,
+    message: '60 second free argument. Yest, click start timer on your device when you are both ready.'
+  },
+  {
+    name: 'closing',
+    turn: 'yes',
+    timer: 5000,
+    message: '30 second closing argument for Yes. Click start timer on your device.'
+  },
+  {
+    name: 'closing',
+    turn: 'no',
+    timer: 5000,
+    message: '30 second closing argument for No. Click start timer on your device.'
   },
 
 ]

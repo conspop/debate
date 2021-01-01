@@ -27,6 +27,8 @@ function RoundScoreboard(props) {
       <h1>Topic: {round.topic}</h1>
       <h3>Arguing Yes: {round.yesPlayer}</h3>
       <h3>Arguing No: {round.noPlayer}</h3>
+      <br />
+      <h3>{props.stages[round.stage].message}</h3>
       <Timer seconds={props.stages[round.stage].timer} runTimer={round.runTimer} gameId={props.gameId}/>
     </div>
   )
