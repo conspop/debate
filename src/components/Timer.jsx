@@ -15,11 +15,18 @@ export default function Timer(props) {
     setSeconds('')
   }
 
-  let interval
+  const moveToVoting = async () => {
+    await axios.post('/api/changescene', {
+      gameId: props.gameId,
+      scene: 'voting'
+    })
+    .catch(err => console.log(err.message))
+    props.changeScene('voting')
+  }
 
   // runs timer when runTimer is true
   useEffect(() => {
-    interval = null;
+    let interval = null;
     if (props.runTimer) {
       setSeconds(props.seconds)
       interval = setInterval(() => {
@@ -29,17 +36,20 @@ export default function Timer(props) {
       clearInterval(interval)
     }
     return () => clearInterval(interval)
-  }, [props.runTimer])
+  }, [props.runTimer, props.seconds])
 
-
+  const {changeScene} = props
   // clear timer when it gets to zero
   useEffect(() => {
-    console.log('third hook')
     if (props.runTimer && seconds === 0) {
       reset()
-      moveToNextStage(props.gameId)
+      if (props.stage === 5) {
+        moveToVoting()
+      } else {
+        moveToNextStage(props.gameId)
+      }
     }
-  }, [seconds, props.runTimer, props.gameId, interval])
+  }, [seconds, props.runTimer, props.gameId, props.stage, changeScene])
 
   return (
     <h1>{props.runTimer ? seconds/1000 : ''}</h1>

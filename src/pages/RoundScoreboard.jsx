@@ -16,7 +16,7 @@ function RoundScoreboard(props) {
   useEffect(() => {
     if (rounds.length === 0) {
       startNewRound(gameId)
-    } 
+    }
   })
 
   return (
@@ -29,7 +29,7 @@ function RoundScoreboard(props) {
       <h3>Arguing No: {round.noPlayer}</h3>
       <br />
       <h3>{props.stages[round.stage].message}</h3>
-      <Timer seconds={props.stages[round.stage].timer} runTimer={round.runTimer} gameId={props.gameId}/>
+      <Timer seconds={props.stages[round.stage].timer} runTimer={round.runTimer} gameId={props.gameId} stage={round.stage} changeScene={props.changeScene}/>
     </div>
   )
 }

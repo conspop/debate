@@ -15,10 +15,10 @@ class GatherScoreboard extends Component {
   handleStartGame = async () => {
     await axios.post('/api/changescene', {
       gameId: this.props.gameId,
-      scene: 'newround'
+      scene: 'round'
     })
     .catch(err => console.log(err.message))
-    this.props.changeScene('newround')
+    this.props.changeScene('round')
   }
   
   render() {

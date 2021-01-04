@@ -2,6 +2,7 @@ import React, { useState, useEffect} from 'react'
 import axios from 'axios'
 
 const startTimer = async (event) => {
+  
   await axios.post('/api/toggletimer', {
     gameId: event.target.id
   })
@@ -54,17 +55,19 @@ function RoundPlayer(props) {
   const [startTimerButton, setStartTimerButton] = useState(false)
 
   useEffect(() => {
-    if (props.name === round.yesPlayer) {
-      setAmArguing('yes')
-    } else if (props.name === round.noPlayer) {
-      setAmArguing('no')
-    }
-    if (amArguing !== '' && props.stages[round.stage].turn === amArguing) {
-      setStartTimerButton(true)
-    } else {
-      setStartTimerButton(false)
-    }
-  }, [props.name, props.stages, round.yesPlayer, round.noPlayer, round.stage, amArguing])
+    if (rounds.length !== 0) {
+      if (props.name === round.yesPlayer) {
+        setAmArguing('yes')
+      } else if (props.name === round.noPlayer) {
+        setAmArguing('no')
+      }
+      if (amArguing !== '' && props.stages[round.stage].turn === amArguing) {
+        setStartTimerButton(true)
+      } else {
+        setStartTimerButton(false)
+      }
+    } 
+  })
   
   return (
     <>

@@ -5,6 +5,7 @@ import axios from 'axios'
 import StartGame from './pages/StartGame'
 import Gather from './pages/Gather'
 import Round from './pages/Round'
+import Voting from './pages/Voting'
 
 class App extends Component {
   intervalId
@@ -76,8 +77,13 @@ class App extends Component {
         {...this.state}
         changeScene={this.changeScene}
       />
-    } else if (scene === 'newround') {
+    } else if (scene === 'round') {
       return <Round 
+        {...this.state}
+        changeScene={this.changeScene}
+      />
+    } else if (scene === 'voting') {
+      return <Voting 
         {...this.state}
         changeScene={this.changeScene}
       />

@@ -121,7 +121,12 @@ async function nextStage(req, res) {
     const {rounds} = game
     const round = rounds[rounds.length - 1]
     round.runTimer = false
-    round.stage += 1
+    if (round.stage <= 5) {
+      round.stage += 1
+    } else {
+      round
+    }
+    
     game.save()
     if (err) {
       res.json(err)
